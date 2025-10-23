@@ -1,35 +1,9 @@
 {% include "global/partials/head.html" %}
+{% include "global/partials/menu.html" %}
+
     <h1>{% block text %} BASE {% endblock text %}</h1>
-    <input id="close-menu" class="close-menu" type="checkbox" aria-label="Close menu" role="button">
-    <label class="close-menu-label" for="close-menu" title="close menu"></label>
-    <aside class="menu">
-        <div class="main-content menu-content">
-            <div class="logo" onclick="getElementById('close-menu').checked = false;">
-                <a href="#intro">
-                    <img class="logo-img" src="assets/img/all.png" alt="">
-                </a>
-            </div>
-            <nav>
-                <ul onclick="getElementById('close-menu').checked = false;">
-                    <li>
-                        <a href="#apex">Apex</a>
-                    </li>
-                    <li>
-                        <a href="#top3">Top 3</a>
-                    </li>
-                    <li>
-                        <a href="#gallery">Gallery</a>
-                    </li>
-                    <li>
-                        <a href="#weapons">Weapons</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </aside>
+
+
     <section id="intro" class="main-bg section">
         <div class="main-content intro-content">
             <div class="intro-text">
