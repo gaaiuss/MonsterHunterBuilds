@@ -1,24 +1,40 @@
+{% load static %}
 <input id="close-menu" class="close-menu" type="checkbox" aria-label="Close menu" role="button">
 <label class="close-menu-label" for="close-menu" title="close menu"></label>
 <aside class="menu">
     <div class="main-content menu-content">
         <div class="logo" onclick="getElementById('close-menu').checked = false;">
             <a href="#intro">
-                <img class="logo-img" src="assets/img/all.png" alt="">
+                <img class="logo-img" src="{% static "global/img/all.png" %}" alt="">
             </a>
         </div>
         <nav>
             <ul onclick="getElementById('close-menu').checked = false;">
-                <li>
-                    <a href="{% url 'home:home' %}">Home</a>
-                </li>
-                <li>
-                    <a href="{% url 'blog:home' %}">Blog</a>
-                </li>
-                <li>
-                    <a href="{% url 'blog:example' %}">Example</a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="{% url "home:home" %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url "blog:home" %}">Blog</a>
+                    </li>
+                    <li>
+                        <a href="{% url "blog:example" %}">Example</a>
+                    </li>
+                    <li>
+                        <a href="#apex">Apex</a>
+                    </li>
+                    <li>
+                        <a href="#top3">Top 3</a>
+                    </li>
+                    <li>
+                        <a href="#gallery">Gallery</a>
+                    </li>
+                    <li>
+                        <a href="#weapons">Weapons</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
         </nav>
     </div>
 </aside>
