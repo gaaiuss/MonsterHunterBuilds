@@ -1,13 +1,14 @@
 {% include "global/partials/head.html" %}
 {% include "global/partials/menu.html" %}
 
-<h1>{% block text %}{% endblock text %}</h1>
-
-<main class="posts">
-    {% include "global/partials/postblock.html" %}
-</main>
-
 <section id="intro" class="main-bg section">
+    {% comment %} Django {% endcomment %}
+    <h1>{% block text %}{% endblock text %}</h1>
+    
+    <main class="posts">
+        {% block posts %}{% endblock posts %}
+    </main>
+
         <div class="main-content intro-content">
             <div class="intro-text">
                 <h2>The fates of a people and nature entwined. At the center—a boy named Nata and the mysterious White Wraith.</h2>
@@ -18,7 +19,7 @@
             </div>
         </div>
     </section>
-    
+
     <section id="apex" class="other-bg section">
         <div class="main-content apex-content">
             <h2>The Apex</h2>
@@ -72,7 +73,6 @@
                 <div class="gallery-img">
                     <img src="static/global/img/jin dahaad.png" alt="Jin Dahaad">
                 </div>
-
             </div>
         </div>
     </section>

@@ -1,4 +1,11 @@
 {% extends "global/base.html" %}
+
 {% block text %} 
     {{ text }}
 {% endblock text %}
+
+{% block posts %}
+    {% include "global/partials/postblock.html" %}
+    {% include "global/partials/postblock.html" %}
+    {% include "global/partials/postblock.html" %}
+{% endblock posts %}
