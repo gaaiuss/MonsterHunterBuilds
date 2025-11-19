@@ -5,7 +5,10 @@
 {% endblock text %}
 
 {% block posts %}
-    {% include "global/partials/postblock.html" %}
-    {% include "global/partials/postblock.html" %}
-    {% include "global/partials/postblock.html" %}
+    
+    
+    {% for post in posts %}
+        {% include "global/partials/postblock.html" %}
+    {% endfor %}
+        
 {% endblock posts %}
