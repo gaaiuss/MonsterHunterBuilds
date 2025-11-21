@@ -15,6 +15,16 @@ body {
     background: #f1f1f1;
 }
 
+a {
+    color: rgb(189, 75, 109);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(235, 94, 136);
+    text-decoration: underline;
+}
+
 .content {
     display: grid;
     gap: 1.5rem;
@@ -27,8 +37,24 @@ body {
     box-shadow: 5px 2px 5px rgba(0, 0, 0, 10%);
 }
 
+.menu {
+    background: rgb(78, 0, 33);
+    padding: 0 1.5rem;
+}
+
+.menu__links {
+    list-style: none;
+    display: flex;
+}
+
+.menu__links a {
+    display: block;
+    color: #f1f1f1;
+    padding: 1.5rem;
+}
+
 @media (min-width: 600px) {
-    .content {
+    .content:not(:has(.single-post)) {
         grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
     }
 }
