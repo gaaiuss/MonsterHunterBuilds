@@ -4,7 +4,10 @@ from . import views
 
 app_name = 'blog'
 
+# URLs docs
+# https://docs.djangoproject.com/en/5.2/topics/http/urls/
 urlpatterns = [
     path('', views.blog, name='home'),
+    path('post/<int:id>', views.post, name='post'),
     path('example/', views.example, name='example'),
 ]

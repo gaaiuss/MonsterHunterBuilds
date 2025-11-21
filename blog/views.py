@@ -7,7 +7,22 @@ def blog(request):
     print('Blog')
 
     context = {
-        'text': 'Hello, blog page',
+        # 'text': 'Hello, blog page',
+        'posts': posts
+    }
+
+    return render(
+        request,
+        'blog/index.html',
+        context
+    )
+
+
+def post(request, id):
+    print('Post', id)
+
+    context = {
+        # 'text': 'Hello, blog page',
         'posts': posts
     }
 
