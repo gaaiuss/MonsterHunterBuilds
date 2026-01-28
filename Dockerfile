@@ -1,14 +1,14 @@
-FROM python:3.11.3-alpine3.18
+FROM python:3.13.11-alpine3.23
 LABEL mantainer='caio.gui.castro@gmail.com'
 
 # This environment variable is used to control if Python must save bytecode 
 # files on the disk. 1 - No, 0 - Yes
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 # Defines that Python prints will be immediately exhibited on the console or
 # on another exit device, without being stored in buffer.
 # On resume, you will see Python outputs in real time.
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 # Copies the "djangoapp" folder and "scripts" inside the container.
 COPY djangoapp /djangoapp
