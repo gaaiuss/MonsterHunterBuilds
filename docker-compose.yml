@@ -13,8 +13,8 @@ services:
     depends_on:
       - psql
   psql:
-    image: postgres:18.1-alpine3.23
+    image: postgres:18.2-alpine
     volumes:
-      - ./data/postgres/data:/var/lib/postgresql/data/
+      - ./data/postgres/data:/var/lib/postgresql
     env_file:
       - ./dotenv_files/.env
