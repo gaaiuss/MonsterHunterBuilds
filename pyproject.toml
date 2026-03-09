@@ -33,6 +33,13 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["ruff", "pyright", "pytest", "pytest-xdist"]
 
+[project.scripts]
+# Define os comandos de console. A chave ('monster_hunter_builds') é o comando.
+# O valor aponta para 'nome_do_pacote.nome_do_modulo:nome_da_funcao'.
+# Ex: 'my_package.main:run' -> src/my_package/main.py (e a função run lá dentro).
+# Lembre-se de sincronizar o nome do pacote com 'known-first-party' do Ruff.
+# monster_hunter_builds = "my_package.my_module:run_from_script"
+
 
 # ============================
 # Lint e formatação (Ruff)
