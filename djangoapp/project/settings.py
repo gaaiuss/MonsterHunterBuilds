@@ -56,7 +56,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "project.urls"
 
-TEMPLATES = [
+TEMPLATES: list[dict[str, str | bool | dict[str, list[str]] | list[Path]]] = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
@@ -95,7 +95,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
