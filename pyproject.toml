@@ -1,12 +1,145 @@
+# ============================
+# Reference Project: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+#
+# Install python-dotenv
+#
+# Os pontos de atenção estão comentados próximo das chaves, aqui só coloquei um
+# lembrete.
+#
+# Atenção: As versões do Python devem ser consistentes entre:
+#   - project.requires-python
+#   - tool.ruff.target-version
+#   - tool.pyright.pythonVersion
+#
+# Atenção: O nome do pacote principal deve ser consistente entre:
+#   - project.scripts
+#   - tool.ruff.lint.isort.known-first-party
+#   - A pasta dentro de 'djangoapp/'
+# ============================
 [project]
-name = "monsterhunterbuilds"
-version = "0.1.0"
-description = "Add your description here"
+name = "monster_hunter_builds"
+version = "0.0.1"
+description = "monster_hunter_builds"
 readme = "README.md"
+license = "MIT"
+authors = [{ name = "gaaiuss", email = "caio.gui.castro@gmail.com" }]
 requires-python = ">=3.13"
 dependencies = [
-    "django>=6.0.2",
-    "pyright>=1.1.408",
-    "ruff>=0.15.4",
-    "tool>=0.8.0",
+    "django>=6.0.3",
+    "python-dotenv>=1.1.0",
 ]
+
+
+[project.optional-dependencies]
+dev = ["ruff", "pyright", "pytest", "pytest-xdist"]
+
+
+# ============================
+# Lint e formatação (Ruff)
+# ============================
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+fix = true
+show-fixes = true
+indent-width = 4
+exclude = ["venv", ".venv", "env", ".env", "node_modules", "__pycache__"]
+
+[tool.ruff.lint]
+select = [
+    "ASYNC",
+    "A",
+    "ANN",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "E",
+    "EM",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "FIX",
+    "I",
+    "ICN",
+    "ISC",
+    "Q",
+    "RET",
+    "RSE",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "T20",
+    "TC",
+    "TD",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+    "RUF",
+    "N",
+]
+ignore = ["T201", "COM812"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN201", "S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+# Ensina ao Ruff qual é o pacote principal do seu projeto.
+# Deve ser o mesmo nome da pasta dentro de 'djangoapp/'.
+# known-first-party = ["my_package"]
+
+
+# ============================
+# Tipagem (Pyright)
+# ============================
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.13"
+include = ["djangoapp", 'tests']
+exclude = [
+    "**/venv",
+    "**/.venv",
+    "**/env",
+    "**/.env",
+    "**/node_modules",
+    "**/__pycache__",
+]
+venv = ".venv"
+venvPath = "."
+executionEnvironments = [{ root = "djangoapp" }]
+
+# ============================
+# Testes (Pytest)
+# ============================
+[tool.pytest.ini_options]
+addopts = "-s --color=yes --tb=short"
+# Adiciona 'djangoapp' ao path do Python durante os testes. Isso permite que
+# os testes em `tests/` importem os módulos de `djangoapp/` sem erros.
+pythonpath = ["djangoapp"]
+testpaths = ["tests"]
+
+
+# ============================
+# Build e Setuptools
+# ============================
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+# Informa ao setuptools para encontrar os pacotes dentro da pasta 'djangoapp'.
+# Essencial para a estrutura de layout com 'djangoapp/'.
+where = ["djangoapp"]
+
+[tool.setuptools]
+# Mapeia o diretório raiz de pacotes para 'djangoapp'.
+package-dir = { "" = "djangoapp" }
