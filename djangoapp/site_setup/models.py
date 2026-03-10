@@ -10,7 +10,7 @@ class MenuLink(models.Model):
     url_or_path = models.CharField(max_length=2048)
     new_tab = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.text
 
 
@@ -29,5 +29,5 @@ class SiteSetup(models.Model):
     show_pagination = models.BooleanField(default=True)
     show_footer = models.BooleanField(default=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
