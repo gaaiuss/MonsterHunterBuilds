@@ -67,7 +67,6 @@ TEMPLATES: list[dict[str, str | bool | dict[str, list[str]] | list[Path]]] = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "site_setup.context_processor.context_processor_example",
                 "site_setup.context_processor.site_setup",
             ],
         },
