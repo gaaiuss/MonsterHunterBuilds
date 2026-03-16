@@ -1,4 +1,5 @@
 from django.db import models
+from utils.images import resize_image
 from utils.model_validator import validate_png
 
 
@@ -40,6 +41,18 @@ class SiteSetup(models.Model):
         default="",
         validators=[validate_png],
     )
+
+    def save(self, *args, **kwargs) -> None:  # type: ignore  # noqa: ANN002, ANN003
+        current_favicon_name = str(self.favicon.name)
+        super().save(*args, **kwargs)  # type: ignore
+
+        favincon_changed = False
+
+        if self.favicon:
+            favincon_changed = current_favicon_name != self.favicon.name
+
+        if favincon_changed:
+            resize_image(self.favicon, 32)
 
     def __str__(self) -> str:
         return self.title
