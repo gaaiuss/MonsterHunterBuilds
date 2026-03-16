@@ -1,5 +1,16 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --clr-white: 213 100% 98%;
+  --clr-black: 213 100% 5%;
+  --clr-primary: 213 100% 50%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: hsl(var(--clr-white));
+  color: hsl(var(--clr-black));
+  font-size: 1.6rem;
+  font-family: serif;
 }
