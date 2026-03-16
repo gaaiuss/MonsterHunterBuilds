@@ -1,12 +1,12 @@
 from pathlib import Path
+from typing import Any
 
 from django.conf import settings
-from django.forms import ImageField
 from PIL import Image
 
 
 def resize_image(
-    image_django: ImageField,
+    image_django: Any,  # noqa: ANN401
     new_width: int = 800,
     quality: int = 60,
 ) -> Image.Image:
