@@ -1,3 +1,4 @@
+# This project only
 /djangoapp/static/
 /djangoapp/media/
 /djangoapp/project/local_settings.py
