@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.forms import ModelForm
+from django.http import HttpRequest
 
 from blog.models import Category, Page, Post, Tag
 
@@ -92,3 +94,17 @@ class PostAdmin(admin.ModelAdmin):  # type: ignore
         "tag",
         "category",
     )
+
+    def save_model(
+        self,
+        request: HttpRequest,
+        obj: object,
+        form: ModelForm,
+        change: bool,  # noqa: FBT001
+    ) -> None:
+        if change:
+            obj.updated_by = request.user  # type: ignore
+        else:
+            obj.created_by = request.user  # type: ignore
+
+        obj.save()  # type: ignore
