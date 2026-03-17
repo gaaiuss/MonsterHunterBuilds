@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from utils.images import resize_image
 from utils.rands import slugify_new
 
 
@@ -102,7 +103,18 @@ class Post(models.Model):
     def save(self, *args, **kwargs) -> None:  # type: ignore # noqa: ANN002, ANN003
         if not self.slug:
             self.slug = slugify_new(self.title)
-        return super().save(*args, **kwargs)  # type: ignore
+
+        current_cover_name = str(self.cover.name)
+        super_save = super().save(*args, **kwargs)  # type: ignore
+        cover_changed = False
+
+        if self.cover:
+            cover_changed = current_cover_name != self.cover.name
+
+        if cover_changed:
+            resize_image(self.cover, 900, 70)
+
+        return super_save
 
     def __str__(self) -> str:
         return self.title
