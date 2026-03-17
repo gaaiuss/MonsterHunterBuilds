@@ -11,7 +11,7 @@ WORKDIR /djangoapp
 EXPOSE 8000
 
 RUN apt-get update && apt-get install -y dos2unix && \
-    dos2unix /scripts/commands.sh && \
+    dos2unix /scripts/*.sh && \
     apt-get install -y netcat-openbsd && \
     rm -rf /var/lib/apt/lists/* && \
     python -m venv /venv && \
