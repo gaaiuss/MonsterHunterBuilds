@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from utils.rands import slugify_new
 
@@ -46,9 +47,57 @@ class Page(models.Model):
         unique=True, default="", null=False, blank=True, max_length=50
     )
     is_published = models.BooleanField(
-        default=False, help_text="Mark this if you want to share your page publicly."
+        default=False, help_text="Share your page publicly."
     )
     content = models.TextField()
+
+    def save(self, *args, **kwargs) -> None:  # type: ignore # noqa: ANN002, ANN003
+        if not self.slug:
+            self.slug = slugify_new(self.title)
+        return super().save(*args, **kwargs)  # type: ignore
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(
+        unique=True, default="", null=False, blank=True, max_length=50
+    )
+    excerpt = models.CharField(max_length=200)
+    is_published = models.BooleanField(
+        default=True, help_text="Share your post publicly."
+    )
+    content = models.TextField()
+    cover = models.ImageField(upload_to="posts/%Y/%m/", blank=True, default="")
+    cover_in_post_content = models.BooleanField(
+        default=True, help_text="Show cover image in post content."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    # user.post_created_by.all  # noqa: ERA001
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="post_created_by",
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+    # user.post_updated_by.all  # noqa: ERA001
+    updated_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="post_updated_by",
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True, default=None
+    )
+    tag = models.ManyToManyField(Tag, blank=True, default="")  # type: ignore
 
     def save(self, *args, **kwargs) -> None:  # type: ignore # noqa: ANN002, ANN003
         if not self.slug:

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import Category, Page, Tag
+from blog.models import Category, Page, Post, Tag
 
 
 @admin.register(Tag)
@@ -56,3 +56,39 @@ class PageAdmin(admin.ModelAdmin):  # type: ignore
     list_per_page = 10
     ordering = ("-id",)
     prepopulated_fields = {"slug": ("title",)}  # noqa: RUF012
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):  # type: ignore
+    list_display = (
+        "id",
+        "title",
+        "is_published",
+        "created_by",
+    )
+    list_display_links = ("title",)
+    search_fields = (
+        "id",
+        "title",
+        "slug",
+        "excerpt",
+        "content",
+    )
+    list_per_page = 10
+    list_filter = (
+        "category",
+        "is_published",
+    )
+    list_editable = ("is_published",)
+    ordering = ("-id",)
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+        "created_by",
+        "updated_by",
+    )
+    prepopulated_fields = {"slug": ("title",)}  # noqa: RUF012
+    autocomplete_fields = (
+        "tag",
+        "category",
+    )
