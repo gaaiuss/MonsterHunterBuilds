@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.forms import ModelForm
 from django.http import HttpRequest
+from django_summernote.admin import SummernoteModelAdmin  # type: ignore
 
 from blog.models import Category, Page, Post, Tag
 
@@ -61,7 +62,8 @@ class PageAdmin(admin.ModelAdmin):  # type: ignore
 
 
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):  # type: ignore
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ("content",)
     list_display = (
         "id",
         "title",
@@ -99,7 +101,7 @@ class PostAdmin(admin.ModelAdmin):  # type: ignore
         self,
         request: HttpRequest,
         obj: object,
-        form: ModelForm,
+        form: ModelForm,  # type: ignore
         change: bool,  # noqa: FBT001
     ) -> None:
         if change:
