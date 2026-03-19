@@ -43,7 +43,8 @@ class CategoryAdmin(admin.ModelAdmin):  # type: ignore
 
 
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):  # type: ignore
+class PageAdmin(SummernoteModelAdmin):  # type: ignore
+    summernote_fields = ("content",)
     list_display = (
         "id",
         "title",
