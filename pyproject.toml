@@ -23,11 +23,11 @@ description = "monster_hunter_builds"
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "gaaiuss", email = "caio.gui.castro@gmail.com" }]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
     "django>=6.0.3",
-    "django-stubs>=6.0.0",
     "django-summernote>=0.8.20.0",
+    "django-types>=0.23.0",
     "pillow>=12.1.1",
     "python-dotenv>=1.1.0",
     "types-pillow>=10.2.0.20240822",
@@ -50,7 +50,7 @@ dev = ["ruff", "pyright", "pytest", "pytest-xdist"]
 # ============================
 [tool.ruff]
 line-length = 88
-target-version = "py313"
+target-version = "py314"
 fix = true
 show-fixes = true
 indent-width = 4
@@ -103,20 +103,15 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 
-[tool.ruff.lint.isort]
-# Ensina ao Ruff qual é o pacote principal do seu projeto.
-# Deve ser o mesmo nome da pasta dentro de 'djangoapp/'.
-# known-first-party = ["my_package"]
-
-
 # ============================
 # Tipagem (Pyright)
 # ============================
 [tool.pyright]
 typeCheckingMode = "strict"
-pythonVersion = "3.13"
-include = ["djangoapp", 'tests']
+pythonVersion = "3.14"
+include = ['djangoapp', 'tests']
 exclude = [
+    '**/.*',
     "**/venv",
     "**/.venv",
     "**/env",
