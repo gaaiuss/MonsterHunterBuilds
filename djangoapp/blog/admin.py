@@ -1,13 +1,16 @@
+# type: ignore
+
 from django.contrib import admin
-from django.forms import ModelForm
-from django.http import HttpRequest
-from django_summernote.admin import SummernoteModelAdmin  # type: ignore
+from django.forms import ModelForm  # noqa: TC002
+from django.http import HttpRequest  # noqa: TC002
+from django.utils.safestring import mark_safe
+from django_summernote.admin import SummernoteModelAdmin
 
 from blog.models import Category, Page, Post, Tag
 
 
 @admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):  # type: ignore
+class TagAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
@@ -25,7 +28,7 @@ class TagAdmin(admin.ModelAdmin):  # type: ignore
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):  # type: ignore
+class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
@@ -43,7 +46,7 @@ class CategoryAdmin(admin.ModelAdmin):  # type: ignore
 
 
 @admin.register(Page)
-class PageAdmin(SummernoteModelAdmin):  # type: ignore
+class PageAdmin(SummernoteModelAdmin):
     summernote_fields = ("content",)
     list_display = (
         "id",
@@ -91,6 +94,7 @@ class PostAdmin(SummernoteModelAdmin):
         "updated_at",
         "created_by",
         "updated_by",
+        "link",
     )
     prepopulated_fields = {"slug": ("title",)}  # noqa: RUF012
     autocomplete_fields = (
@@ -98,16 +102,23 @@ class PostAdmin(SummernoteModelAdmin):
         "category",
     )
 
+    def link(self, obj: Post) -> str:
+        if not obj.pk:
+            return "-"
+
+        post_url = obj.get_absolute_url()
+        return mark_safe(f'<a target="_blank" href="{post_url}">See post</a>')  # noqa: S308
+
     def save_model(
         self,
         request: HttpRequest,
         obj: object,
-        form: ModelForm,  # type: ignore
+        form: ModelForm,
         change: bool,  # noqa: FBT001
     ) -> None:
         if change:
-            obj.updated_by = request.user  # type: ignore
+            obj.updated_by = request.user
         else:
-            obj.created_by = request.user  # type: ignore
+            obj.created_by = request.user
 
-        obj.save()  # type: ignore
+        obj.save()

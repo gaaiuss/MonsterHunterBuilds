@@ -1,8 +1,9 @@
 # type: ignore
-from typing import Any
+from typing import Any, Self
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django_summernote.models import AbstractAttachment
 from utils.images import resize_image
 from utils.rands import slugify_new
@@ -12,7 +13,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
-        
+
     name = models.CharField(max_length=50)
     slug = models.SlugField(
         unique=True, default=None, null=True, blank=True, max_length=50
@@ -64,9 +65,11 @@ class Page(models.Model):
     def __str__(self) -> str:
         return self.title
 
+
 class PostManager(models.Manager):
-    def get_published(self):
-        return self.filter(is_published=True).order_by('-pk')
+    def get_published(self) -> Self:
+        return self.filter(is_published=True).order_by("-pk")
+
 
 class Post(models.Model):
     objects = PostManager()
@@ -116,6 +119,12 @@ class Post(models.Model):
 
         if self.cover and current_cover_name != self.cover.name:
             resize_image(self.cover, 900, 70)
+
+    def get_absolute_url(self) -> str:
+        if not self.is_published:
+            return reverse("blog:index")
+
+        return reverse("blog:post", args=(self.slug,))
 
     def __str__(self) -> str:
         return self.title
