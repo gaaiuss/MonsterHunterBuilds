@@ -86,6 +86,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+img {
+  margin: 0, auto;
+}
+
 a {
   color: hsl(var(--clr-primary-base));
   text-decoration: none;
