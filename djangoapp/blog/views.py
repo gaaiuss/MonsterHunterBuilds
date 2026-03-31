@@ -1,8 +1,8 @@
 # type:ignore
 
 from django.core.paginator import Paginator
-from django.http.request import HttpRequest
-from django.http.response import HttpResponse
+from django.http.request import HttpRequest  # noqa: TC002
+from django.http.response import HttpResponse  # noqa: TC002
 from django.shortcuts import render
 
 from blog.models import Post
