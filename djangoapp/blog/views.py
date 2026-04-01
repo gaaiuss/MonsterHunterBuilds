@@ -6,7 +6,7 @@ from django.http.request import HttpRequest  # noqa: TC002
 from django.http.response import HttpResponse  # noqa: TC002
 from django.shortcuts import render
 
-from blog.models import Post
+from blog.models import Page, Post
 
 PER_PAGE = 9
 
@@ -73,8 +73,9 @@ def search(request: HttpRequest) -> HttpResponse:
 
 
 def page(request: HttpRequest, slug: str) -> HttpResponse:
-    print(slug)
-    return render(request, "blog/pages/page.html")
+    page = Page.objects.filter(is_published=True).filter(slug=slug).first()
+
+    return render(request, "blog/pages/page.html", {"page": page})
 
 
 def post(request: HttpRequest, slug: str) -> HttpResponse:
