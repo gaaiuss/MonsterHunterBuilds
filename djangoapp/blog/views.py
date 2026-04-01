@@ -1,6 +1,7 @@
 # type:ignore
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http.request import HttpRequest  # noqa: TC002
 from django.http.response import HttpResponse  # noqa: TC002
 from django.shortcuts import render
@@ -47,6 +48,28 @@ def tag(request: HttpRequest, slug: str) -> HttpResponse:
     page_obj = paginator.get_page(page_number)
 
     return render(request, "blog/pages/index.html", {"page_obj": page_obj})
+
+
+def search(request: HttpRequest) -> HttpResponse:
+    search_value = request.GET.get("search", "").strip()
+
+    posts = Post.objects.get_published().filter(
+        # Title contains search value OR
+        # Excerpt contains search value OR
+        # Content contains search value
+        Q(title__icontains=search_value)
+        | Q(excerpt__icontains=search_value)
+        | Q(content__icontains=search_value)
+    )[:PER_PAGE]
+
+    return render(
+        request,
+        "blog/pages/index.html",
+        {
+            "page_obj": posts,
+            "search_value": search_value,
+        },
+    )
 
 
 def page(request: HttpRequest, slug: str) -> HttpResponse:
