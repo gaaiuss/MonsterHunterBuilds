@@ -108,7 +108,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None
     )
-    tag = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def save(self, *args: Any, **kwargs: Any) -> None:  # noqa: ANN401
         if not self.slug:

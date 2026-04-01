@@ -98,7 +98,7 @@ class PostAdmin(SummernoteModelAdmin):
     )
     prepopulated_fields = {"slug": ("title",)}  # noqa: RUF012
     autocomplete_fields = (
-        "tag",
+        "tags",
         "category",
     )
 
