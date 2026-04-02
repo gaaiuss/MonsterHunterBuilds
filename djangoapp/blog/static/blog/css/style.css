@@ -1,7 +1,7 @@
 :root {
   /* Colors */
-  --_clr-base-hue: 213;
-  --_clr-primary: var(--_clr-base-hue) 100%;
+  --_clr-base-hue: 37;
+  --_clr-primary: var(--_clr-base-hue) 75%;
   --_clr-gray: var(--_clr-base-hue) 10%;
 
   --clr-whitest: var(--_clr-primary) 100%;
@@ -75,8 +75,8 @@ html {
 }
 
 body {
-  background-color: hsl(var(--clr-white));
-  color: hsl(var(--clr-black));
+  background-color: hsl(var(--clr-black));
+  color: hsl(var(--clr-white));
   font-size: 20px; /* Fallback value */
   font-size: var(--fs-base);
   font-family: var(--ff-regular);
