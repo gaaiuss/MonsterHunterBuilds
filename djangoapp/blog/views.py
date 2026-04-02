@@ -1,5 +1,7 @@
 # type:ignore
 
+from typing import Any
+
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -7,23 +9,43 @@ from django.http import Http404
 from django.http.request import HttpRequest  # noqa: TC002
 from django.http.response import HttpResponse  # noqa: TC002
 from django.shortcuts import render
+from django.views.generic import ListView
 
 from blog.models import Page, Post
 
 PER_PAGE = 9
 
 
-def index(request: HttpRequest) -> HttpResponse:
-    posts = Post.objects.get_published()
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+class PostListView(ListView):
+    model = Post
+    template_name = "blog/pages/index.html"
+    context_object_name = "posts"
+    ordering = ("-pk",)
+    paginate_by = PER_PAGE
+    queryset = Post.objects.get_published()
 
-    return render(
-        request,
-        "blog/pages/index.html",
-        {"page_obj": page_obj, "page_title": "Home - "},
-    )
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:  # noqa: ANN401
+        context = super().get_context_data(**kwargs)
+        context.update({"page_title": "Home - "})
+        return context
+
+    # def get_queryset(self) -> QuerySet[Any]:
+    #     queryset = super().get_queryset()
+    #     return queryset.filter(is_published=True)
+
+
+# def index(request: HttpRequest) -> HttpResponse:
+#     posts = Post.objects.get_published()
+
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(
+#         request,
+#         "blog/pages/index.html",
+#         {"page_obj": page_obj, "page_title": "Home - "},
+#     )
 
 
 def created_by(request: HttpRequest, author_pk: int) -> HttpResponse:
