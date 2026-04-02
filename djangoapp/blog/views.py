@@ -7,7 +7,7 @@ from django.db.models import Q, QuerySet
 from django.http import Http404
 from django.http.request import HttpRequest  # noqa: TC002
 from django.http.response import HttpResponse  # noqa: TC002
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView
 
 from blog.models import Page, Post
@@ -90,6 +90,49 @@ class TagListView(PostListView):
         page_title = f"{self.object_list[0].tags.first().name} - Tag - "
         context.update({"page_title": page_title})
         return context
+
+
+class SearchListView(PostListView):
+    def __init__(self, **kwargs: dict[str, Any]) -> None:
+        super().__init__(**kwargs)
+        self._search_value = ""
+
+    def setup(self, request: HttpRequest, *args: Any, **kwargs: dict[str, Any]) -> None:  # noqa: ANN401
+        self._search_value = request.GET.get("search", "").strip()
+        return super().setup(request, *args, **kwargs)
+
+    def get_queryset(self) -> QuerySet[Any]:
+        search_value = self._search_value
+        return (
+            super()
+            .get_queryset()
+            .filter(
+                Q(title__icontains=search_value)
+                | Q(excerpt__icontains=search_value)
+                | Q(content__icontains=search_value)
+            )[:PER_PAGE]
+        )
+
+    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        search_value = self._search_value
+        context.update(
+            {
+                "page_title": f"{search_value[:30]} - Search - ",
+                "search_value": search_value,
+            }
+        )
+        return context
+
+    def get(
+        self,
+        request: HttpRequest,
+        *args: Any,  # noqa: ANN401
+        **kwargs: dict[str, Any],
+    ) -> HttpResponse:
+        if self._search_value == "":
+            return redirect("blog:index")
+        return super().get(request, *args, **kwargs)
 
 
 def search(request: HttpRequest) -> HttpResponse:
