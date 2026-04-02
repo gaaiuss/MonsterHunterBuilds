@@ -5,7 +5,7 @@
   --_clr-gray: var(--_clr-base-hue) 10%;
 
   --clr-whitest: var(--_clr-primary) 100%;
-  --clr-white: var(--_clr-primary) 99%;
+  --clr-white: var(--_clr-primary) 85%;
   --clr-black: var(--_clr-primary) 2%;
 
   --clr-primary-ltst: var(--_clr-primary) 80%;
@@ -267,6 +267,7 @@ html,
 .search-input {
   width: 100%;
   background-color: transparent;
+  color: hsl(var(--clr-white));
   border: 2px solid hsl(var(--clr-gray-ltr));
   font-size: var(--fs-base);
   padding: var(--spacing-smlst);
@@ -411,7 +412,7 @@ html,
 }
 
 .card {
-  border: 1px solid hsl(var(--clr-gray-ltst));
+  border: 1px solid hsl(var(--clr-white));
   border-radius: var(--br-base);
   box-shadow: 0 5px 5px hsl(var(--clr-black) / 0.1);
   transition:
