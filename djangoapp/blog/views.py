@@ -7,8 +7,8 @@ from django.db.models import Q, QuerySet
 from django.http import Http404
 from django.http.request import HttpRequest  # noqa: TC002
 from django.http.response import HttpResponse  # noqa: TC002
-from django.shortcuts import redirect, render
-from django.views.generic import ListView
+from django.shortcuts import redirect
+from django.views.generic import DetailView, ListView
 
 from blog.models import Page, Post
 
@@ -135,57 +135,37 @@ class SearchListView(PostListView):
         return super().get(request, *args, **kwargs)
 
 
-def search(request: HttpRequest) -> HttpResponse:
-    search_value = request.GET.get("search", "").strip()
+class PageDetailView(DetailView):
+    model = Page
+    template_name = "blog/pages/page.html"
+    slug_field = "slug"
+    context_object_name = "page"
 
-    posts = Post.objects.get_published().filter(
-        # Title contains search value OR
-        # Excerpt contains search value OR
-        # Content contains search value
-        Q(title__icontains=search_value)
-        | Q(excerpt__icontains=search_value)
-        | Q(content__icontains=search_value)
-    )[:PER_PAGE]
+    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        page = self.get_object()
+        page_title = f"{page.title} - Page - "
+        context.update({"page_title": page_title})
 
-    page_title = f"{search_value[:30]} - Search - "
+        return context
 
-    return render(
-        request,
-        "blog/pages/index.html",
-        {
-            "page_obj": posts,
-            "search_value": search_value,
-            "page_title": page_title,
-        },
-    )
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(is_published=True)
 
 
-def page(request: HttpRequest, slug: str) -> HttpResponse:
-    page_obj = Page.objects.filter(is_published=True).filter(slug=slug).first()
+class PostDetailView(DetailView):
+    model = Post
+    template_name = "blog/pages/post.html"
+    slug_field = "slug"
+    context_object_name = "post"
 
-    if page_obj is None:
-        raise Http404
+    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        page_title = f"{post.title} - Post - "
+        context.update({"page_title": page_title})
 
-    page_title = f"{page_obj.title} - Page - "
+        return context
 
-    return render(
-        request, "blog/pages/page.html", {"page": page_obj, "page_title": page_title}
-    )
-
-
-def post(request: HttpRequest, slug: str) -> HttpResponse:
-    post_obj = Post.objects.get_published().filter(slug=slug).first()
-
-    if post_obj is None:
-        raise Http404
-
-    page_title = f"{post_obj.title} - Post - "
-
-    return render(
-        request,
-        "blog/pages/post.html",
-        {
-            "post": post_obj,
-            "page_title": page_title,
-        },
-    )
+    def get_queryset(self) -> QuerySet[Any]:
+        return super().get_queryset().filter(is_published=True)
